@@ -40,6 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (!preg_match("/^[a-zA-Z0-9]*$/",$username)) {
 	  $usernameErr = "Only letters and numbers allowed";
 	}
+
+	// TODO: Check if username already exists
+
   }
   if (empty($_POST["email"])) {
     $emailErr = "Email is required";
@@ -48,6 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   		$emailErr = "Invalid email format";
 	}
+
+	// TODO: Check if email already exists
+	
   }
   if (empty($_POST["password"])) {
     $passwordErr = "Password is required";
