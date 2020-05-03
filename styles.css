@@ -1,0 +1,16 @@
+#not_signed_in_navbar, #signed_in_navbar {
+	text-align: right;
+}
+
+#home_link {
+	text-align: left;
+}
+
+a {
+	padding: 5px;
+	font-size: 24px;
+}
+
+form input {
+	margin: 10px;
+}
