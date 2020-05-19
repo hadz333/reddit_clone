@@ -5,9 +5,6 @@
   .error {
   	color: red;
   }
-  #signupForm {
-  	margin-left: 20%;
-  }
 </style>
 <title>Sign up for Reddit 2</title>
 <link rel="stylesheet" type="text/css" href="styles.css">
@@ -29,16 +26,21 @@ if ($_SESSION["loggedIn"]) {
 $username = $email = $password = "";
 $usernameErr = $emailErr = $passwordErr = "";
 
+// tells whether input is valid
+$validInput = true;
+
 // checks to make sure server request used POST method
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // error text only shows up when required field is not entered
   if (empty($_POST["username"])) {
   	$usernameErr = "Username is required";
+  	$validInput = false;
   } else {
   	$username = test_input($_POST["username"]);
   	// if name isn't valid, set error text (not blank anymore)
 	if (!preg_match("/^[a-zA-Z0-9]*$/",$username)) {
 	  $usernameErr = "Only letters and numbers allowed";
+	  $validInput = false;
 	}
 
 	// TODO: Check if username already exists
@@ -46,10 +48,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   if (empty($_POST["email"])) {
     $emailErr = "Email is required";
+    $validInput = false;
   } else {
     $email = test_input($_POST["email"]);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   		$emailErr = "Invalid email format";
+  		$validInput = false;
 	}
 
 	// TODO: Check if email already exists
@@ -57,11 +61,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   if (empty($_POST["password"])) {
     $passwordErr = "Password is required";
+    $validInput = false;
   } else {
     $password = test_input($_POST["password"]);
     if (!validate_password($password)) {
+    	$validInput = false;
   		$passwordErr = "Password must be 6 characters or greater, include 1 Uppercase letter (A-Z) and 1 Number (0-9)";
 	}
+  }
+
+  if ($validInput) {
+  	echo "Valid input";
+  	// add entry to database here
   }
 }
 
@@ -90,7 +101,7 @@ function test_input($data) {
 }
 ?>
 
-<center><h2>Sign up for Reddit 2</h2></center>
+<h2>Sign up for Reddit 2</h2>
 <div id="signupForm">
 <h4 class="error">Required fields: *</h4> 
 <!-- $_SERVER["PHP_SELF"] returns your current file name --> 
@@ -105,9 +116,9 @@ E-mail: <input type="text" name="email" value="<?php echo $email;?>">
 <br><br>
 Password: <input type="password" name="password" value="<?php echo $password;?>">
 <span class="error">* <?php echo $passwordErr;?></span>
+
 <br>
 <input type="submit" name="submit" value="Sign up">
-
 </form>
 </div>
 <?php
