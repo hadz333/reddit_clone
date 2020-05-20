@@ -43,8 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  $validInput = false;
 	}
 
-	// TODO: Check if username already exists
-
   }
   if (empty($_POST["email"])) {
     $emailErr = "Email is required";
@@ -55,9 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   		$emailErr = "Invalid email format";
   		$validInput = false;
 	}
-
-	// TODO: Check if email already exists
-	
   }
   if (empty($_POST["password"])) {
     $passwordErr = "Password is required";
@@ -71,8 +66,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if ($validInput) {
-  	echo "Valid input";
   	// add entry to database here
+  	$servername = "localhost";
+	$db_user = "root";
+	$db_password = "";
+	$dbname = "RedditCloneDB";
+
+	try {
+	    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $db_user, $db_password);
+	    // set the PDO error mode to exception
+	    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	    // begin the transaction
+	    $conn->beginTransaction();
+	    // our SQL statements
+	    // ensure username and email don't already exist in database
+	    $nameDBcheck = $conn->prepare("SELECT * FROM users WHERE username=?");
+	    $nameDBcheck->execute([$username]);
+	    $result = $nameDBcheck->fetch();
+	    if ($result) {
+	    	$usernameErr = "Username already exists";
+	    	$validInput = false;
+	    }
+
+	    $emailDBcheck = $conn->prepare("SELECT * FROM users WHERE email=?");
+	    $emailDBcheck->execute([$email]);
+	    $result = $emailDBcheck->fetch();
+	    if ($result) {
+	    	$emailErr = "Email already exists";
+	    	$validInput = false;
+	    } 
+	    if ($validInput) {
+	    	$query = "INSERT INTO users (username, password, email) 
+	    		VALUES (?, ?, ?)";
+	    	$stmt = $conn->prepare($query);
+	    	$stmt->execute([$username, $password, $email]);
+	    	// commit the transaction
+		    $conn->commit();
+		    echo "New user created successfully";
+		}
+
+	    
+	    }
+	catch(PDOException $e)
+	    {
+	    // roll back the transaction if something failed
+	    $conn->rollback();
+	    echo "Error: " . $e->getMessage();
+	    }
+
+	$conn = null;
   }
 }
 

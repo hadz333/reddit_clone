@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "myDBPDO";
+$dbname = "RedditCloneDB";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
