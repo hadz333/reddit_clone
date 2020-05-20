@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    	// commit the transaction
 		    $conn->commit();
 		    echo "New user created successfully";
+		    header("Location: http://127.0.0.1/phpProjects/reddit_clone/login_page.php");
 		}
 
 	    
@@ -164,14 +165,5 @@ Password: <input type="password" name="password" value="<?php echo $password;?>"
 <input type="submit" name="submit" value="Sign up">
 </form>
 </div>
-<?php
-echo "<h2>Your Input:</h2>";
-echo $username;
-echo "<br>";
-echo $email;
-echo "<br>";
-echo $password
-?>
-
 </body>
 </html>
