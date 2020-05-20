@@ -39,9 +39,9 @@ try {
     // sql to create table
     $sql = "CREATE TABLE Posts (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(30) PRIMARY KEY,
+    username VARCHAR(30) NOT NULL,
     title VARCHAR(50) NOT NULL,
-    content text(10000) NOT NULL,
+    body TEXT NOT NULL,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )";
 
