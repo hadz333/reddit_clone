@@ -100,16 +100,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    echo "New user created successfully";
 		    header("Location: http://127.0.0.1/phpProjects/reddit_clone/login_page.php");
 		}
-
-	    
-	    }
-	catch(PDOException $e)
-	    {
+	} catch(PDOException $e) {
 	    // roll back the transaction if something failed
 	    $conn->rollback();
 	    echo "Error: " . $e->getMessage();
-	    }
-
+	}
 	$conn = null;
   }
 }
@@ -139,7 +134,7 @@ function test_input($data) {
 }
 ?>
 
-<h2>Sign up for Reddit 2</h2>
+<h2>Profile Info</h2>
 <div id="signupForm">
 <h4 class="error">Required fields: *</h4> 
 <!-- $_SERVER["PHP_SELF"] returns your current file name --> 

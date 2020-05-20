@@ -8,7 +8,9 @@
 <a href="homePage.php">Home</a>
 </div>
 <div id="signed_in_navbar">
-<a href="login_page.php">Profile</a>
+<a href="profile_page.php"><?php echo $_SESSION["username"]; ?></a>
+| 
+<a href="signed_out.php">Sign out</a>
 </div>
 </body>
 </html>

@@ -10,13 +10,7 @@
 $username = $password = "";
 $usernameErr = $passwordErr = "";
 
-include("session_variables.php"); 
-
-if ($_SESSION["loggedIn"]) {
-	include("navbar_signed_in.html");
-} else {
-	include("navbar_not_signed_in.html");
-}
+include("session_variables.php");
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -47,6 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    	// user exists, validate password
 	    	if ($password == $result[0]) {
 	    		echo "Logged in successfully";
+	    		session_start();
+	    		$_SESSION["username"] = $username;
+	    		session_write_close();
 		    	header("Location: http://127.0.0.1/phpProjects/reddit_clone/homePage.php");
 	    	} else {
 	    		$passwordErr = "Password is incorrect.";
