@@ -11,7 +11,17 @@
   <?php 
 	include("session_variables.php"); 
   ?>
-<button>+ Create post</button>
+
+<?php
+
+if (isset($_SESSION["username"])) {
+	echo "<a href='create_post.php'>+ Create post</a>";
+} else {
+	echo "<a href='login_page.php'>+ Create post</a>";
+}
+
+?>
+
 </div>
 
 </body>
