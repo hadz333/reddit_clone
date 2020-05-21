@@ -13,6 +13,7 @@
 <?php 
 include("session_variables.php");
 unset($_SESSION['username']);
+header("Location: http://127.0.0.1/phpProjects/reddit_clone/homePage.php");
 ?>
 
 <h2>You have successfully signed out.</h2>
