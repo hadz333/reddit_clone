@@ -100,8 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    echo "New user created successfully";
 		    header("Location: http://127.0.0.1/phpProjects/reddit_clone/login_page.php");
 		}
-
-	    
 	    }
 	catch(PDOException $e)
 	    {
