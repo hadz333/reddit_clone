@@ -20,27 +20,9 @@ if (isset($_SESSION["username"])) {
 }
 echo "<br><br>";
 echo "<h2>Posts</h2>";
-
-echo "<table style='border: solid 0px black;'>";
-echo "<tr><th>Author</th><th>Title</th><th>Posted</th></tr>";
-
-class TableRows extends RecursiveIteratorIterator {
-    function __construct($it) {
-        parent::__construct($it, self::LEAVES_ONLY);
-    }
-
-    function current() {
-        return "<td style='width:150px;border:0px solid black;'>" . parent::current(). "</td>";
-    }
-
-    function beginChildren() {
-        echo "<tr>";
-    }
-
-    function endChildren() {
-        echo "</tr>" . "\n";
-    }
-}
+?>
+<div id="post_list">
+<?php
 
 $servername = "localhost";
 $db_user = "root";
@@ -56,13 +38,21 @@ try {
     // begin the transaction
     $conn->beginTransaction();
     
-	$query = "SELECT username, title, reg_date FROM posts";
+	$query = "SELECT id, username, title, reg_date FROM posts";
 	$stmt = $conn->prepare($query);
-	$stmt->execute();
-    // set the resulting array to associative
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-        echo $v;
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    for ($i = 0; $i < sizeof($result); $i++) {
+        $postid = $result[$i]["id"];
+        echo "<a href='posts.php?postid=$postid'>";
+        echo "<div id='post_thumbnail'>";
+        echo $result[$i]["title"];
+        echo "<div id='post_description'>";
+        echo "By: ", $result[$i]["username"], "&emsp;";
+        echo "Posted ", $result[$i]["reg_date"];
+        echo "</div>";
+        echo "</div>";
+        echo "</a>";
     }
 } catch(PDOException $e) {
     // roll back the transaction if something failed
@@ -72,6 +62,7 @@ try {
 $conn = null;
 echo "</table>";
 ?>
+</div>
 </div>
 </body>
 </html>
