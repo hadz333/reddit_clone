@@ -10,7 +10,11 @@
 <div class="container">
 <?php 
 include("session_variables.php"); 
+?>
 
+<div id="post_list">
+<h2>Posts</h2>
+<?php
 
 if (isset($_SESSION["username"])) {
 	echo "<a href='create_post.php'>+ Create post</a>";
@@ -21,28 +25,6 @@ if (isset($_SESSION["username"])) {
 echo "<br><br>";
 
 if (empty($_GET["postid"])) {
-echo "<h2>Posts</h2>";
-
-echo "<table style='border: solid 0px black;'>";
-echo "<tr><th>Author</th><th>Title</th><th>Posted</th></tr>";
-
-class TableRows extends RecursiveIteratorIterator {
-    function __construct($it) {
-        parent::__construct($it, self::LEAVES_ONLY);
-    }
-
-    function current() {
-        return "<td style='width:150px;border:0px solid black;'>" . parent::current(). "</td>";
-    }
-
-    function beginChildren() {
-        echo "<tr>";
-    }
-
-    function endChildren() {
-        echo "</tr>" . "\n";
-    }
-}
 
 $servername = "localhost";
 $db_user = "root";
@@ -58,13 +40,18 @@ try {
     // begin the transaction
     $conn->beginTransaction();
     
-    $query = "SELECT username, title, reg_date FROM posts";
+    $query = "SELECT id, username, title, reg_date FROM posts";
     $stmt = $conn->prepare($query);
     $stmt->execute();
-    // set the resulting array to associative
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-        echo $v;
+    $result = $stmt->fetchAll();
+    for ($i = 0; $i < sizeof($result); $i++) {
+        $postid = $result[$i]["id"];
+        echo "<a style='text-decoration: none;' href='?postid=$postid'>";
+        
+        echo $result[$i]["title"], "&emsp;";
+        echo "By: ", $result[$i]["username"], "&emsp;";
+        echo "Posted ", $result[$i]["reg_date"];
+        echo "</a><br><br>";
     }
 } catch(PDOException $e) {
     // roll back the transaction if something failed
@@ -72,7 +59,6 @@ try {
     echo "Error: " . $e->getMessage();
 }
 $conn = null;
-echo "</table>";
 } else {
     // If postid=? is in the URL, we will be here and use that ? value to serve the post with this id.
     $postid = $_GET["postid"];
@@ -96,7 +82,6 @@ echo "</table>";
         $stmt->execute([$postid]);
         // set the resulting array to associative
         $result = $stmt->fetch();
-
         // if postid does not exist in database, show error message. Otherwise, show the post.
         if (empty($result)) {
             echo "Sorry, this post does not exist.";
@@ -114,6 +99,7 @@ echo "</table>";
         $conn = null;
     }
 ?>
+</div>
 </div>
 </body>
 </html>
