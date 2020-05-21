@@ -67,6 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   Password: <input type="password" name="password" value="<?php echo $password;?>"> <?php echo $passwordErr;?>
   <br>
   <input type="submit" value="Sign in">
+  <br><br>
+  Don't have an account? <a href="signup_page.php">Sign up</a>
 </form>
 </body>
 </html>
