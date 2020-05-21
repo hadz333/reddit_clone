@@ -12,8 +12,9 @@
 include("session_variables.php"); 
 ?>
 
-<div id="post_list">
+
 <h2>Posts</h2>
+
 <?php
 
 if (isset($_SESSION["username"])) {
@@ -21,9 +22,10 @@ if (isset($_SESSION["username"])) {
 } else {
 	echo "<a href='login_page.php'>+ Create post</a>";
 }
-
 echo "<br><br>";
-
+?>
+<div id="post_list">
+<?php
 if (empty($_GET["postid"])) {
 
 $servername = "localhost";
@@ -46,12 +48,15 @@ try {
     $result = $stmt->fetchAll();
     for ($i = 0; $i < sizeof($result); $i++) {
         $postid = $result[$i]["id"];
-        echo "<a style='text-decoration: none;' href='?postid=$postid'>";
-        
-        echo $result[$i]["title"], "&emsp;";
+        echo "<a href='?postid=$postid'>";
+        echo "<div id='post_thumbnail'>";
+        echo $result[$i]["title"];
+        echo "<div id='post_description'>";
         echo "By: ", $result[$i]["username"], "&emsp;";
         echo "Posted ", $result[$i]["reg_date"];
-        echo "</a><br><br>";
+        echo "</div>";
+        echo "</div>";
+        echo "</a>";
     }
 } catch(PDOException $e) {
     // roll back the transaction if something failed

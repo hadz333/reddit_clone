@@ -6,6 +6,26 @@
 	text-align: left;
 }
 
+#post_list a {
+	text-decoration: none;
+	color: black;
+	padding: 0;
+}
+
+#post_list #post_thumbnail {
+	background: #ebebe0;
+	border: 1px solid white;
+	padding: 10px;
+}
+
+#post_list #post_thumbnail:hover {
+	background: #d7d7c1;
+}
+
+#post_list #post_description {
+	font-size: 16px;
+}
+
 a {
 	padding: 5px;
 	font-size: 24px;
