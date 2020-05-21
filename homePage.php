@@ -60,7 +60,6 @@ try {
     echo "Error: " . $e->getMessage();
 }
 $conn = null;
-echo "</table>";
 ?>
 </div>
 </div>

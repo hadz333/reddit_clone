@@ -12,9 +12,6 @@
 include("session_variables.php"); 
 ?>
 
-
-<h2>Posts</h2>
-
 <?php
 
 if (isset($_SESSION["username"])) {
