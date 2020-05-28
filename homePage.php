@@ -38,7 +38,7 @@ try {
     // begin the transaction
     $conn->beginTransaction();
     
-	$query = "SELECT id, username, title, reg_date FROM posts";
+	$query = "SELECT id, username, title, reg_date FROM posts ORDER BY reg_date desc";
 	$stmt = $conn->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll();

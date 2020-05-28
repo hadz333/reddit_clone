@@ -84,7 +84,7 @@ try {
     $conn->beginTransaction();
 
     // grab user's post history
-    $grab_post_history = $conn->prepare("SELECT id, username, title, reg_date FROM posts WHERE username=?");
+    $grab_post_history = $conn->prepare("SELECT id, username, title, reg_date FROM posts WHERE username=? ORDER BY reg_date desc");
     $grab_post_history->execute([$_SESSION["username"]]);
     $result = $grab_post_history->fetchAll();
     for ($i = 0; $i < sizeof($result); $i++) {
