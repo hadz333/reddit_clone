@@ -62,6 +62,35 @@ Account created:
 <h2>Post History</h2>
 <div id="post_list">
 <?php
+
+// if delete post button is clicked
+if (isset($_GET["deletepost"])) {
+	try {
+	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $db_user, $db_password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // begin the transaction
+    $conn->beginTransaction();
+
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $db_user, $db_password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // begin the transaction
+    $conn->beginTransaction();
+
+    // grab user's post history
+    $grab_post_history = $conn->prepare("DELETE FROM posts WHERE id=?");
+    $grab_post_history->execute([$_GET['deletepost']]);
+    $conn->commit();
+    echo "Post deleted.";
+} catch(PDOException $e) {
+    // roll back the transaction if something failed
+    $conn->rollback();
+    echo "Error: " . $e->getMessage();
+}
+}
 // add entry to database here
 $servername = "localhost";
 $db_user = "root";
@@ -92,6 +121,7 @@ try {
         echo "<a href='./posts.php?postid=$postid'>";
         echo "<div id='post_thumbnail'>";
         echo $result[$i]["title"];
+        echo "&emsp;&emsp;&emsp;<a href='profile_page.php?deletepost=$postid' style='color:red;'>Delete</a>";
         echo "<div id='post_description'>";
         echo "By: ", $result[$i]["username"], "&emsp;";
         echo "Posted ", $result[$i]["reg_date"];

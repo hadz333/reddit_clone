@@ -86,7 +86,7 @@ Title: <input type="text" name="title" value="<?php echo $title;?>" maxlength="5
 Body: <textarea id="body" name="body" rows="5" cols="50"><?php echo $body;?></textarea>
 <span class="error">* <?php echo $bodyErr;?></span>
 <br><br>
-<input type="submit" name="submit" value="Add Post">
+<input type="submit" name="submit" value="Post">
 </form>
 </div>
 </body>
