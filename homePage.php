@@ -18,9 +18,11 @@ if (isset($_SESSION["username"])) {
 } else {
 	echo "<a href='login_page.php'>+ Create post</a>";
 }
-echo "<br><br>";
-echo "<h2>Posts</h2>";
 ?>
+<br><br><br><br>
+<form action="search.php">
+<button type="submit">Search posts</button>
+<br><br>
 <div id="post_list">
 <?php
 
