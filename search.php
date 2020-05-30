@@ -53,7 +53,7 @@ if (!empty($_GET['searchText'])) {
         $result = $stmt->fetchAll();
         for ($i = 0; $i < sizeof($result); $i++) {
             $postid = $result[$i]["id"];
-            echo "<a href='?postid=$postid'>";
+            echo "<a href='./posts.php?postid=$postid'>";
             echo "<div id='post_thumbnail'>";
             echo $result[$i]["title"];
             echo "<div id='post_description'>";
